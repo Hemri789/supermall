@@ -11,12 +11,84 @@
     <recommend-view :recommends="recommends"></recommend-view>
     <!-- 本周流行 -->
     <feature-view></feature-view>
+    <!-- TabControl -->
+    <tab-control class="tab-control" :titles="['流行','新款','爆款']"></tab-control>
+    <ul>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li>列表</li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
   </div>
 </template>
 
 <script>
-//导入顶部导航
-import NavBar from 'components/common/navbar/NavBar';
 //导入轮播图
 import HomeSwiper from './childComps/HomeSwiper'
 //推荐信息展示
@@ -24,27 +96,39 @@ import RecommendView from './childComps/RecommendView'
 //本周流行
 import FeatureView from './childComps/FeatureView'
 
-//网络获取数据
+//导入顶部导航
+import NavBar from 'components/common/navbar/NavBar';
+//TabControl
+import TabControl from 'components/content/tabControl/TabControl';
+
+//网络获取数据-----------------------------------
 import {getHomeMultidata} from 'network/home';
+
 
 export default {
   name: 'Home',
   components:{
-    NavBar,
     HomeSwiper,
     RecommendView,
-    FeatureView
+    FeatureView,
+    NavBar,
+    TabControl
   },
   data () {
     return {
       banners:[],
-      recommends:[]
+      recommends:[],
+      goods:{
+        'pop':{page:0,list:[]},
+        'news':{page:0,list:[]},
+        'sell':{page:0,list:[]},
+      }
     }
   },
   created(){
     //1、请求多个数据
     getHomeMultidata().then(res=>{
-      console.log(res);
+      // console.log(res);
       // this.result=res
       this.banners=res.data.banner.list
       this.recommends=res.data.recommend.list
@@ -66,5 +150,9 @@ export default {
     right: 0;
     top: 0;
     z-index: 9;
+  }
+  .tab-control{
+    position: sticky;
+    top: 44px;
   }
 </style>
