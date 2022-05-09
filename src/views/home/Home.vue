@@ -9,6 +9,8 @@
     <home-swiper :banners="banners"></home-swiper>
     <!-- 推荐信息展示 -->
     <recommend-view :recommends="recommends"></recommend-view>
+    <!-- 本周流行 -->
+    <feature-view></feature-view>
   </div>
 </template>
 
@@ -19,6 +21,8 @@ import NavBar from 'components/common/navbar/NavBar';
 import HomeSwiper from './childComps/HomeSwiper'
 //推荐信息展示
 import RecommendView from './childComps/RecommendView'
+//本周流行
+import FeatureView from './childComps/FeatureView'
 
 //网络获取数据
 import {getHomeMultidata} from 'network/home';
@@ -28,7 +32,8 @@ export default {
   components:{
     NavBar,
     HomeSwiper,
-    RecommendView
+    RecommendView,
+    FeatureView
   },
   data () {
     return {
@@ -39,7 +44,7 @@ export default {
   created(){
     //1、请求多个数据
     getHomeMultidata().then(res=>{
-      // console.log(res);
+      console.log(res);
       // this.result=res
       this.banners=res.data.banner.list
       this.recommends=res.data.recommend.list
@@ -50,8 +55,16 @@ export default {
 </script>
 
 <style scoped>
-.home-nav{
-  background-color: var(--color-tint);
-  color:#fff
-}
+  #home{
+    padding-top:44px ;
+  }
+  .home-nav{
+    background-color: var(--color-tint);
+    color:#fff;
+    position:fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 9;
+  }
 </style>
