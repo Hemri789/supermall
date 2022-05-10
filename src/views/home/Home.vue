@@ -12,9 +12,9 @@
     <!-- 本周流行 -->
     <feature-view></feature-view>
     <!-- TabControl -->
-    <tab-control class="tab-control" :titles="['流行','新款','爆款']"></tab-control>
+    <tab-control class="tab-control" :titles="['流行','新款','精品']" @tabClick="tabClick"></tab-control>
     <!-- GoodsList -->
-    <goods-list :goods="goods['pop'].list"></goods-list>
+    <goods-list :goods="showGoods"></goods-list>
   </div>
 </template>
 
@@ -57,7 +57,13 @@ export default {
         'pop':{page:0,list:[]},
         'new':{page:0,list:[]},
         'sell':{page:0,list:[]},
-      }
+      },
+      currentType:'pop'
+    }
+  },
+  computed:{
+    showGoods(){
+      return this.goods[this.currentType].list
     }
   },
   created(){
@@ -69,6 +75,26 @@ export default {
     this.getHomeGoods('sell')
   },
   methods:{
+     /**
+      事件监听相关方法
+    */
+    tabClick(index){
+      switch(index){
+        case 0: this.currentType='pop';  break
+        case 1: this.currentType='new';  break
+        case 2: this.currentType='sell';  break
+      }
+      // if(index===0){
+      //   this.currentType='pop'
+      // }else if(index===1){
+      //   this.currentType='new'
+      // }else{
+      //   this.currentType='sell'
+      // }
+      },
+    /**
+      网络请求相关方法
+    */
     getHomeMultidata(){
       getHomeMultidata().then(res=>{
       // console.log(res);
