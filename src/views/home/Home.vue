@@ -13,78 +13,8 @@
     <feature-view></feature-view>
     <!-- TabControl -->
     <tab-control class="tab-control" :titles="['流行','新款','爆款']"></tab-control>
-    <ul>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
+    <!-- GoodsList -->
+    <goods-list :goods="goods['pop'].list"></goods-list>
   </div>
 </template>
 
@@ -100,10 +30,14 @@ import FeatureView from './childComps/FeatureView'
 import NavBar from 'components/common/navbar/NavBar';
 //TabControl
 import TabControl from 'components/content/tabControl/TabControl';
+//GoodsList
+import GoodsList from 'components/content/goods/GoodsList';
 
 //网络获取数据-----------------------------------
-import {getHomeMultidata} from 'network/home';
-
+import {
+  getHomeMultidata,
+  getHomeGoods
+  } from 'network/home';
 
 export default {
   name: 'Home',
@@ -112,7 +46,8 @@ export default {
     RecommendView,
     FeatureView,
     NavBar,
-    TabControl
+    TabControl,
+    GoodsList
   },
   data () {
     return {
@@ -120,21 +55,36 @@ export default {
       recommends:[],
       goods:{
         'pop':{page:0,list:[]},
-        'news':{page:0,list:[]},
+        'new':{page:0,list:[]},
         'sell':{page:0,list:[]},
       }
     }
   },
   created(){
     //1、请求多个数据
-    getHomeMultidata().then(res=>{
+    this.getHomeMultidata()
+    //2、请求商品数据
+    this.getHomeGoods('pop')
+    this.getHomeGoods('new')
+    this.getHomeGoods('sell')
+  },
+  methods:{
+    getHomeMultidata(){
+      getHomeMultidata().then(res=>{
       // console.log(res);
       // this.result=res
       this.banners=res.data.banner.list
       this.recommends=res.data.recommend.list
     })
-  },
-  
+    },
+    getHomeGoods(type){
+      const page = this.goods[type].page+1
+      getHomeGoods(type,page).then(res=>{
+        this.goods[type].list.push(...res.data.list)
+        this.goods[type].page += 1
+      })
+    }
+  }
 }
 </script>
 
@@ -154,5 +104,6 @@ export default {
   .tab-control{
     position: sticky;
     top: 44px;
+    z-index: 1;
   }
 </style>
