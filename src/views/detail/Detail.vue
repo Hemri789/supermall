@@ -2,12 +2,25 @@
   <div id='Detail'>
     <detail-nav-bar class="nav-bar"></detail-nav-bar>
     <scroll class="content" ref="scroll">
-      <!-- <detail-swiper :top-imgs="topImgs"></detail-swiper> -->
-    <!-- <detail-base-info :goods="goods"></detail-base-info> -->
-    <!-- <detail-shop-info :shops="shops"></detail-shop-info> -->
-    <detail-goods-info :detailInfo="detailInfo" @imgLoad="imgLoad"></detail-goods-info>
+      <detail-swiper :top-imgs="topImgs"></detail-swiper>
+      <detail-base-info :goods="goods"></detail-base-info>
+      <detail-shop-info :shops="shops"></detail-shop-info>
+      <detail-goods-info :detailInfo="detailInfo" @imgLoad="imgLoad"></detail-goods-info>
+      <detail-param-info :paramInfo="paramInfo"></detail-param-info>
+      <detail-comment-info :commentInfo="commentInfo"></detail-comment-info>
     </scroll>
-    
+    <ul>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
   </div>
 </template>
 
@@ -18,12 +31,14 @@ import DetailSwiper from './childComps/DetailSwiper'
 import DetailBaseInfo from './childComps/DetailBaseInfo'
 import DetailShopInfo from './childComps/DetailShopInfo'
 import DetailGoodsInfo from './childComps/DetailGoodsInfo'
+import DetailParamInfo from './childComps/DetailParamInfo'
+import DetailCommentInfo from './childComps/DetailCommentInfo'
 
 //滚动组件
 import Scroll from 'components/common/scroll/Scroll'
 
 //数据获取
-import {getDetail,Goods,Shops} from 'network/detail'
+import {getDetail,Goods,Shops,paramInfo} from 'network/detail'
 
 
   export default {
@@ -34,6 +49,8 @@ import {getDetail,Goods,Shops} from 'network/detail'
       DetailBaseInfo,
       DetailShopInfo,
       DetailGoodsInfo,
+      DetailParamInfo,
+      DetailCommentInfo,
 
       Scroll
     },
@@ -43,7 +60,9 @@ import {getDetail,Goods,Shops} from 'network/detail'
         topImgs:[],
         goods:{},
         shops:{},
-        detailInfo:{}
+        detailInfo:{},
+        paramInfo:{},
+        commentInfo:[]
       }
     },
     created(){
@@ -61,6 +80,13 @@ import {getDetail,Goods,Shops} from 'network/detail'
       this.shops = new Shops(data.shopInfo)
       //4、获取商品详细信息
       this.detailInfo = data.detailInfo
+      //5、获取参数信息
+      this.paramInfo = new paramInfo(data.itemParams.info,data.itemParams.rule)
+      //6、获取评论
+      if(data.rate.cRate !==0){
+        this.commentInfo = data.rate.list
+        console.log(this.commentInfo);
+      }
       })
       
     },

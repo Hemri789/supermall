@@ -31,3 +31,13 @@ export class Shops {
         this.cGoods = shopInfo.cGoods
     }
 }
+
+//参数信息
+export class paramInfo {
+    constructor(info, rule) {
+        //判断是否有图片（部分商品没有图片）
+        this.img = info.images ? info.images[0] : ''
+        this.info = info.set
+        this.rule = rule.tables
+    }
+}
