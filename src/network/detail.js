@@ -15,8 +15,10 @@ export class Goods {
         this.oldPrice = itemInfo.oldPrice
         this.discountBgColor = itemInfo.discountBgColor
         this.discountDesc = itemInfo.discountDesc
+        this.desc = itemInfo.desc
         this.columns = columns
         this.services = shopInfo.services
+        this.realPrice = itemInfo.lowNowPrice
     }
 }
 
@@ -40,4 +42,11 @@ export class paramInfo {
         this.info = info.set
         this.rule = rule.tables
     }
+}
+
+//商品推荐数据
+export function getRecommend() {
+    return request({
+        url: '/recommend'
+    })
 }

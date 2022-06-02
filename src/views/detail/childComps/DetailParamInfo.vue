@@ -67,14 +67,15 @@
     flex: 1;
   }
   .rule-tr:last-child{
-    padding-bottom:30px ;
     margin-bottom: 50px;
     border-bottom: 4px solid #ededed;
   }
   .info-value{
         font-size: 13px;
+        color: #df0763;
     }
-.img{
+.img img{
+  margin: 10px 10px 0 0;
   width: 100%;
 }
 </style>

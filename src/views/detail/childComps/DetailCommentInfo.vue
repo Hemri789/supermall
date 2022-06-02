@@ -94,11 +94,17 @@ import {formatDate} from 'common/utils'
   font-size: 12px;
   color: #999;
 }
+.comment-time{
+  width: 72px;
+}
 .comment-style{
   margin-left:10px ;
 }
+.user-showImg{
+  display: inline-block;
+  margin: 10px 0 0 10px;
+}
 .user-showImg img{
-  margin: 10px 10px 0 0;
-  width: 100%;
+  height: 70px;
 }
 </style>

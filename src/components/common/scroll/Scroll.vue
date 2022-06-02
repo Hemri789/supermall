@@ -52,9 +52,9 @@ export default {
   },
   methods: {
     //返回顶部时间 time
-    scrollTo(x, y, time = 300) {
+    scrollTo(x=0, y=0, time = 300) {
       //this.scroll用于判断是否有这个值
-      this.scroll.scrollTo(0, 0, time);
+      this.scroll.scrollTo(x, y, time);
     },
     finishPullUp(){
       this.scroll.finishPullUp()
@@ -62,6 +62,9 @@ export default {
     refresh(){
       // console.log('----');
       this.scroll.refresh()
+    },
+    getCurrentY(){
+      return this.scroll && this.scroll.y || 0
     }
   },
 };

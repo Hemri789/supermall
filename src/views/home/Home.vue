@@ -53,7 +53,7 @@ import GoodsList from "components/content/goods/GoodsList";
 //Scroll滚动
 import Scroll from "components/common/scroll/Scroll";
 //BackTop返回顶部按钮
-import BackTop from 'components/content/backTop/BackTop';
+import {backTopMixin} from 'common/mixin.js'
 
 //网络获取数据-----------------------------------
 import { getHomeMultidata, getHomeGoods } from "network/home";
@@ -69,7 +69,6 @@ export default {
     TabControl,
     GoodsList,
     Scroll,
-    BackTop,
   },
   data() {
     return {
@@ -81,15 +80,25 @@ export default {
         sell: { page: 0, list: [] },
       },
       currentType: "pop",
-      showBackTop:false,
       tabOffsetTop:0,
-      isTabFixed:false
+      isTabFixed:false,
+      saveY:0
     };
   },
+  mixins:[backTopMixin],
   computed: {
     showGoods() {
       return this.goods[this.currentType].list;
     },
+  },
+  activated(){
+    //设置进首页时的位置
+    this.$refs.scroll.refresh()
+    this.$refs.scroll.scrollTo(0,this.saveY,0)
+  },
+  deactivated(){
+    //记录离开首页时的位置
+    this.saveY = this.$refs.scroll.getCurrentY()
   },
   created() {
     //1、请求多个数据
@@ -124,9 +133,6 @@ export default {
       }
       this.$refs.tabControl1.currentIndex=index
       this.$refs.tabControl2.currentIndex=index
-    },
-    backTopClick(){
-      this.$refs.scroll.scrollTo(0, 0, 500)
     },
     //滑动超过1000显示返回顶部按钮
     contentScroll(position){
